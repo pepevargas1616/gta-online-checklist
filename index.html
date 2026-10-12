@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15171c">
+  <meta name="description" content="Checklist de GTA Online, golpes, cronómetros y récords.">
+  <title>Heist Tracker | GTA Online</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Ir al inicio">
+      <span class="brand-icon">H</span>
+      <span>HEIST <b>TRACKER</b><small>GTA ONLINE</small></span>
+    </a>
+    <button id="profileButton" class="profile-button" type="button">
+      <span class="avatar">P</span>
+      <span id="profileName">Mi perfil</span>
+      <span>⌄</span>
+    </button>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <p class="nav-label">MENÚ PRINCIPAL</p>
+      <button class="nav-item active" data-screen="inicio">⌂ <span>Inicio</span></button>
+      <button class="nav-item" data-screen="golpes">◈ <span>Golpes</span></button>
+      <button class="nav-item" data-screen="cronometros">◷ <span>Cronómetros</span></button>
+      <button class="nav-item" data-screen="records">♜ <span>Récords</span></button>
+      <button class="nav-item" data-screen="historial">☷ <span>Historial</span></button>
+      <div class="sidebar-bottom">
+        <div class="sync-status"><span class="status-dot"></span> Guardado en este dispositivo</div>
+        <p>La sincronización entre usuarios se configurará más adelante.</p>
+      </div>
+    </aside>
+
+    <main id="mainContent">
+      <section class="screen active" id="screen-inicio">
+        <div class="welcome">
+          <div>
+            <p class="eyebrow">CENTRO DE OPERACIONES</p>
+            <h1>Nuestros golpes<span class="accent">.</span></h1>
+            <p class="muted">Organiza las misiones, mide tus tiempos y supera tus récords.</p>
+          </div>
+          <div class="welcome-icon">✦</div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">Golpes completados</span>
+            <strong id="completedHeists">0</strong>
+            <span class="stat-note">Según el progreso registrado</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Misiones completadas</span>
+            <strong id="completedMissions">0</strong>
+            <span class="stat-note">En tus checklists</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Intentos registrados</span>
+            <strong id="attemptCount">0</strong>
+            <span class="stat-note">Tiempos guardados</span>
+          </article>
+        </div>
+
+        <div class="section-heading">
+          <div><p class="eyebrow">TU LISTA DE OPERACIONES</p><h2>Continuar progreso</h2></div>
+          <button class="text-button" data-go="golpes">Ver todos →</button>
+        </div>
+        <div id="featuredHeists" class="heist-grid"></div>
+      </section>
+
+      <section class="screen" id="screen-golpes">
+        <div class="page-heading">
+          <p class="eyebrow">CATÁLOGO</p>
+          <h1>Todos los golpes<span class="accent">.</span></h1>
+          <p class="muted">Selecciona un golpe para consultar y marcar sus misiones.</p>
+        </div>
+        <div class="filter-row">
+          <input id="heistSearch" type="search" placeholder="Buscar golpe..." aria-label="Buscar golpe">
+          <select id="categoryFilter" aria-label="Filtrar categoría">
+            <option value="todos">Todas las categorías</option>
+            <option value="golpe">Golpes tradicionales</option>
+            <option value="otro">Atracos y otras operaciones</option>
+          </select>
+        </div>
+        <div id="allHeists" class="heist-grid"></div>
+      </section>
+
+      <section class="screen" id="screen-detalle">
+        <button class="back-button" data-go="golpes">← Volver a los golpes</button>
+        <div id="heistDetail"></div>
+      </section>
+
+      <section class="screen" id="screen-cronometros">
+        <div class="page-heading">
+          <p class="eyebrow">CONTROL DE TIEMPOS</p>
+          <h1>Cronómetros<span class="accent">.</span></h1>
+          <p class="muted">Registra el tiempo de una misión o de un golpe final.</p>
+        </div>
+        <div class="timer-card">
+          <span class="eyebrow">CRONÓMETRO ACTIVO</span>
+          <h2 id="timerTask">Sin misión seleccionada</h2>
+          <div id="timerDisplay" class="timer-display">00:00.0</div>
+          <p id="timerStatus" class="muted">Selecciona una misión o escribe un nombre.</p>
+          <label for="timerLabel">Nombre del intento</label>
+          <input id="timerLabel" placeholder="Ej. Golpe final — Casino">
+          <label for="timerType">Tipo de registro</label>
+          <select id="timerType">
+            <option value="mission">Misión individual</option>
+            <option value="final">Golpe final</option>
+          </select>
+          <label for="timerPlayer">Atribuir tiempo a</label>
+          <select id="timerPlayer">
+            <option value="me">Mi perfil</option>
+            <option value="partner">Perfil de mi novia</option>
+            <option value="joint">Partida conjunta</option>
+          </select>
+          <div class="timer-actions">
+            <button id="startTimer" class="primary-button">▶ Iniciar</button>
+            <button id="pauseTimer" class="secondary-button">Ⅱ Pausar</button>
+            <button id="finishTimer" class="secondary-button">✓ Guardar tiempo</button>
+            <button id="resetTimer" class="ghost-button">Reiniciar</button>
+          </div>
+          <p class="fine-print">El tiempo guardado será un registro manual. No se detectan misiones automáticamente desde GTA V.</p>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-records">
+        <div class="page-heading">
+          <p class="eyebrow">MEJORES MARCAS</p>
+          <h1>Récords<span class="accent">.</span></h1>
+          <p class="muted">Consulta las mejores marcas individuales y conjuntas registradas en este dispositivo.</p>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-label">Récord personal</span><strong id="personalRecord">--:--</strong><span class="stat-note">Mejor tiempo individual</span></article>
+          <article class="stat-card"><span class="stat-label">Récord de pareja</span><strong id="jointRecord">--:--</strong><span class="stat-note">Mejor tiempo conjunto</span></article>
+        </div>
+        <div id="recordsList" class="record-list"></div>
+      </section>
+
+      <section class="screen" id="screen-historial">
+        <div class="page-heading">
+          <p class="eyebrow">REGISTROS ANTERIORES</p>
+          <h1>Historial<span class="accent">.</span></h1>
+          <p class="muted">Todos los tiempos que guardes aparecerán aquí.</p>
+        </div>
+        <div id="historyList" class="record-list"></div>
+      </section>
+
+      <section class="screen" id="screen-ajustes">
+        <div class="page-heading">
+          <p class="eyebrow">PERSONALIZACIÓN</p>
+          <h1>Ajustes<span class="accent">.</span></h1>
+        </div>
+        <article class="panel">
+          <h2>Perfiles</h2>
+          <label for="myName">Tu nombre visible</label>
+          <input id="myName" maxlength="30" placeholder="Mi perfil">
+          <label for="partnerName">Nombre visible de tu novia</label>
+          <input id="partnerName" maxlength="30" placeholder="Perfil de mi novia">
+          <button id="saveProfiles" class="primary-button">Guardar perfiles</button>
+        </article>
+        <article class="panel danger-panel">
+          <h2>Datos locales</h2>
+          <p class="muted">Esta primera versión guarda el progreso y los tiempos en el navegador de este dispositivo.</p>
+          <button id="resetData" class="danger-button">Borrar todos los datos locales</button>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Navegación móvil">
+    <button class="mobile-nav-item active" data-screen="inicio"><span>⌂</span>Inicio</button>
+    <button class="mobile-nav-item" data-screen="golpes"><span>◈</span>Golpes</button>
+    <button class="mobile-nav-item" data-screen="cronometros"><span>◷</span>Tiempos</button>
+    <button class="mobile-nav-item" data-screen="records"><span>♜</span>Récords</button>
+    <button class="mobile-nav-item" data-screen="historial"><span>☷</span>Historial</button>
+  </nav>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
